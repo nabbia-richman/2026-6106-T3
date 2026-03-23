@@ -11,9 +11,13 @@
     <input type="text" id="payee" placeholder="Enter Payee Address">
     <input type="number" id="amount" placeholder="Enter Payer Amount">
     <button class="btn" onclick="transfer()">Transfer</button>
-       
-        <input type="submit" value="Main">
-    </form>
+    <button class="btn" onclick="transaction()">View Transaction</button>
+	<form action="/main" method="post">
+		<input type="submit" value="Main">
+	</form>
+	<p id="view_payer"></p>
+	<p id="view_payee"></p>
+	<p id="view_amount"></p>      
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
     const contractAddress = "0xB987C66b122731cEb07Bb400AD3838Da9D8b13e1";
@@ -77,6 +81,13 @@
         console.log(payer,payee,amount);
         console.log("accounts[0] " + accounts[0]);
         await contract.methods.weixin(payer, payee,amount).send({ from: accounts[0]});
+}
+
+	async function transaction() {
+		const result = await contract.methods.check_transaction().call();
+		document.getElementById('view_payer').innerText = "Payer is: " + result[0];
+		document.getElementById('view_payee').innerText = "Payee is: " + result[1];
+		document.getElementById('view_amount').innerText = "Amount is: " + result[2];
 }
 
     </script>
