@@ -19,17 +19,30 @@
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
-    const contractAddress = "0xB987C66b122731cEb07Bb400AD3838Da9D8b13e1";
+    const contractAddress = "0x459ae2631f49deb50fcf62072f75e26771ae73f1";
     const contractABI = [
 	{
-		"inputs": [],
-		"name": "check_transaction",
-		"outputs": [
+		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "_depositer",
 				"type": "address"
 			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "deposit_money",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "view_transaction",
+		"outputs": [
 			{
 				"internalType": "address",
 				"name": "",
@@ -43,31 +56,8 @@
 		],
 		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_payer",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_payee",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "weixin",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
 	}
-];
+]
     const web3 = new Web3(Web3.givenProvider);
     const contract = new web3.eth.Contract(contractABI, contractAddress);
 
@@ -81,7 +71,7 @@
 		await contract.methods.deposit_money(depositor,amount).send({from:accounts[0]});
 }
 	async function view_transaction() {
-		result = await contract.methods.deposit_view().call();
+		result = await contract.methods.view_transaction().call();
 		console.log(result[0],result[1]);
 		document.getElementById("view_depositor").innerText = "Payer : " + result[0];
 		document.getElementById("view_amount").innerText = "Amount : " + result[1];
