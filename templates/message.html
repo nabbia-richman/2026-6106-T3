@@ -1,0 +1,83 @@
+<head>
+    <meta name="viewport" content="width=device-width ,initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+<div class="container"> 
+    <h2>Message Storage (Blockchain)</h2>
+
+    <!-- 输入消息 -->
+    <input type="text" id="messageInput" placeholder="Enter your message">
+
+    <!-- 按钮 -->
+    <button class="btn" onclick="setMessage()">Set Message</button>
+    <button class="btn" onclick="getMessage()">Get Message</button>
+
+    <!-- 返回 -->
+    <form action="/main" method="post">
+        <input type="submit" value="Main">
+    </form>
+
+    <!-- 显示 -->
+    <p id="output"></p>
+
+    <!-- Web3 -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+
+    <script>
+    const contractAddress = "0xf6262421fe2b631130cace604e7cb35e3b513bec";
+
+    const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_msg",
+				"type": "string"
+			}
+		],
+		"name": "setMessage",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMessage",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+    const web3 = new Web3(Web3.givenProvider);
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    // 写入链
+    async function setMessage() {
+        const accounts = await web3.eth.requestAccounts();
+        const msg = document.getElementById("messageInput").value;
+
+        await contract.methods.setMessage(msg).send({
+            from: accounts[0]
+        });
+
+        alert("Message stored on blockchain!");
+    }
+
+    // 读取链
+    async function getMessage() {
+        const result = await contract.methods.getMessage().call();
+        document.getElementById("output").innerText = "Stored Message: " + result;
+    }
+    </script>
+
+</div>
+</body>

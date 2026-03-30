@@ -228,6 +228,21 @@ input[type="submit"]:active {
 }
 
 /* ─── BUTTON ─────────────────────────────────────────────── */
+
+/* EXIT 按钮（红色） */
+input[type="submit"].exit-btn {
+    background: linear-gradient(135deg, #ff3b3b 0%, #cc0000 50%, #800000 100%);
+    border: 1px solid rgba(255, 80, 80, 0.6);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+}
+
+input[type="submit"].exit-btn:hover {
+    background: linear-gradient(135deg, #ff5c5c 0%, #ff1a1a 50%, #b30000 100%);
+    border-color: #ff4d4d;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+}
+
 button {
     background: linear-gradient(135deg, rgba(0, 245, 255, 0.12) 0%, rgba(0, 128, 255, 0.18) 100%);
     color: var(--neon-cyan);
@@ -272,6 +287,7 @@ button:active {
     transform: translateY(0);
     box-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
 }
+
 
 /* ─── PARAGRAPH / STATUS TEXT ────────────────────────────── */
 p {
